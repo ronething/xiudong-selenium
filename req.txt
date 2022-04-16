@@ -1,0 +1,4 @@
+requests==2.26.0
+selenium==3.141.0
+Flask==2.0.1
+pycryptodome==3.12.0
