@@ -64,4 +64,4 @@ python3 main.py
 
 - https://selenium-python.readthedocs.io/getting-started.html -> 模拟浏览器操作
 - https://flask.palletsprojects.com/en/2.0.x -> web 框架
-- https://github.com/yangn0/`xiudong-selenium` -> 提供了思路
+- https://github.com/yangn0/Xiudong-Script -> 提供了思路
