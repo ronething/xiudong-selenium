@@ -96,13 +96,13 @@ def quit_driver(driver):
         print(f'quit err: {e}')
 
 
-def create_instance(chrome_driver, ticketId: str, event: str, start_time: str = None):
+def create_instance(chrome_driver, ticketId: str, event: str, ticketNum: str, start_time: str = None):
     # TODO: 多窗口操作
     # 获取支付按钮 这里不能直接 goto，应该是由 driver 新开标签页或者新窗口然后进行句柄的轮询，
     # 看看能不能给对应窗口或者标签页一个 tag 进行标记
     # 标记时间，如果时间已到达则可以点击 否则不点击
     confirm_url = f"https://wap.showstart.com/pages/order/activity/confirm/confirm" \
-                  f"?sequence={event}&ticketId={ticketId}&ticketNum=1" \
+                  f"?sequence={event}&ticketId={ticketId}&ticketNum={ticketNum}" \
                   f"&ioswx=1&terminal=app&from=singlemessage&isappinstalled=0"
     pay_btn = goto_confirm_url(chrome_driver, confirm_url)
 
