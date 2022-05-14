@@ -56,15 +56,19 @@ def init_router(app: Flask):
         pool: ThreadPoolExecutor = g.pool
         ticketId = request.args.get('ticketId')
         event = request.args.get('event')
+        if ticketId == "" or event == "":
+            return 'ERROR' 
         ticketNum = request.args.get('ticketNum')
-        if ticketId == "" or event == "" or ticketNum == "":
-            return 'ERROR'
+        if ticketNum == None:
+            ticketNum = 1
+        else:
+            ticketNum = ticketNum
+        print('ticketNum = ',ticketNum)
         cron_time = request.args.get('cron_time')
         if cron_time == "":
             cron = False
         else:
             cron = True
-
         print(f'cron_time is {cron_time}, 是否是定时配置: {cron}')
 
         if not cron:
