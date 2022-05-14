@@ -59,7 +59,7 @@ def init_router(app: Flask):
         if ticketId == "" or event == "":
             return 'ERROR' 
         ticketNum = request.args.get('ticketNum')
-        if ticketNum == None:
+        if ticketNum == None or ticketNum == "":
             ticketNum = 1
         else:
             ticketNum = ticketNum
