@@ -57,19 +57,24 @@ def init_router(app: Flask):
         ticketId = request.args.get('ticketId')
         event = request.args.get('event')
         if ticketId == "" or event == "":
-            return 'ERROR'
+            return 'ERROR' 
+        ticketNum = request.args.get('ticketNum')
+        if ticketNum == None or ticketNum == "":
+            ticketNum = 1
+        else:
+            ticketNum = ticketNum
+        print('ticketNum = ',ticketNum)
         cron_time = request.args.get('cron_time')
         if cron_time == "":
             cron = False
         else:
             cron = True
-
         print(f'cron_time is {cron_time}, 是否是定时配置: {cron}')
 
         if not cron:
-            pool.submit(create_instance, driver, ticketId, event)
+            pool.submit(create_instance, driver, ticketId, event, ticketNum)
         else:
-            pool.submit(create_instance, driver, ticketId, event, cron_time)
+            pool.submit(create_instance, driver, ticketId, event, ticketNum,cron_time)
 
         return 'buy OK'
 
