@@ -10,23 +10,12 @@ wait_time = 3  # 提前三秒开始抢
 
 
 def load_driver():
-    caps = {
-        'browserName': 'chrome',
-        'goog:chromeOptions': {
-            'perfLoggingPrefs': {
-                'enableNetwork': True,
-            },
-            'w3c': False,
-        },
-        'goog:loggingPrefs': {
-            'performance': 'ALL'
-        }
-    }
     options = webdriver.ChromeOptions()
     options.add_argument('log-level=3')
     options.add_argument('--window-size=400,700')
     # options.add_argument('--proxy-server=127.0.0.1:8888') # 本地代理
     options.add_experimental_option('excludeSwitches', ['enable-automation'])
+    options.add_experimental_option("useAutomationExtension", False)
     options.add_experimental_option(
         "mobileEmulation", {"deviceName": "Nexus 5"})
     # DONE: 根据平台判断加载的 driver
@@ -39,7 +28,15 @@ def load_driver():
     else:  # mac or other
         executable_path = "./chromedriver"
 
-    driver = webdriver.Chrome(executable_path=executable_path, desired_capabilities=caps, options=options)
+    driver = webdriver.Chrome(executable_path=executable_path, options=options)
+
+    # js 注入 过环境检测
+    with open('./js/stealth.min.js') as f:
+        inject_js = f.read()
+
+    driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
+        "source": inject_js
+    })
 
     return driver
 
