@@ -5,6 +5,7 @@ from selenium.common.exceptions import ElementClickInterceptedException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
+from sendEmail import sendMail
 
 wait_time = 3  # 提前三秒开始抢
 
@@ -75,6 +76,12 @@ def confirm_ticket(payBtn):
         try:
             b.click()  # click 本身会占用时间，不 sleep 了
             # time.sleep(interval)
+
+            # 发送邮件通知
+            content = '也有可能没抢到，反正打开秀动看看吧...'
+            subject = '抢到啦，快看看手机吧'
+            receivers = ['phycholee@qq.com']
+            sendMail(subject, content, receivers)
         except ElementClickInterceptedException as e:
             print(f'点击支付按钮发生异常，可能是已经抢票成功, 请查看手机 但是先不要退出 {e}')
             continue
@@ -120,7 +127,7 @@ def create_instance(chrome_driver, ticketId: str, event: str, ticketNum: str, st
         confirm_ticket(pay_btn)
 
     # quit(chrome_driver) 抢不到也不要自己退出 手动抢
-    
+
 # 选择观演人
 def select_user(driver):
 
@@ -140,4 +147,3 @@ def select_user(driver):
     confirm = WebDriverWait(driver, 10).until(
         EC.visibility_of_element_located((By.CSS_SELECTOR, '.pop-box>.pop-head>uni-view:nth-child(2)')))
     confirm.click()
-
