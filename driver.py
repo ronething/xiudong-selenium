@@ -80,7 +80,7 @@ def confirm_ticket(payBtn):
             # 发送邮件通知
             content = '也有可能没抢到，反正打开秀动看看吧...'
             subject = '抢到啦，快看看手机吧'
-            receivers = ['phycholee@qq.com']
+            receivers = ['xxx@qq.com']
             sendMail(subject, content, receivers)
         except ElementClickInterceptedException as e:
             print(f'点击支付按钮发生异常，可能是已经抢票成功, 请查看手机 但是先不要退出 {e}')
