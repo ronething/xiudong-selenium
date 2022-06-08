@@ -53,6 +53,7 @@ def goto_login_url(driver: webdriver.Chrome):
 def goto_confirm_url(driver, confirm_ticket_url):
     driver.get(confirm_ticket_url)
 
+    select_user(driver)
     payBtn = WebDriverWait(driver, 10).until(
         EC.visibility_of_element_located((By.CSS_SELECTOR, '.payBtn')))
 
@@ -119,3 +120,24 @@ def create_instance(chrome_driver, ticketId: str, event: str, ticketNum: str, st
         confirm_ticket(pay_btn)
 
     # quit(chrome_driver) 抢不到也不要自己退出 手动抢
+    
+# 选择观演人
+def select_user(driver):
+
+    # 打开身份证列表
+    pleaseSelect = WebDriverWait(driver, 10).until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, '.link-item>.rr>.tips')))
+    if pleaseSelect is None:
+        return
+    pleaseSelect.click()
+
+    # 选择第一个身份证
+    checkBox = WebDriverWait(driver, 10).until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, '.uni-checkbox-wrapper:nth-child(1)')))
+    checkBox.click()
+
+    # 确认
+    confirm = WebDriverWait(driver, 10).until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, '.pop-box>.pop-head>uni-view:nth-child(2)')))
+    confirm.click()
+
