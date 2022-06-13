@@ -4,6 +4,8 @@
 
 试试能不能抢到椅子乐团演出票
 
+github repo: https://github.com/ronething/xiudong-selenium 防止一部分爬虫乱转载。
+
 #### usage
 
 chromedriver 程序需要下载一下
