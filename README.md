@@ -1,6 +1,6 @@
 ### xiudong-selenium
 
-> 此版本为 selenium 模拟浏览器操作 目前暂时不考虑继续维护。
+> 此版本为 selenium 模拟浏览器操作 目前考虑随缘维护。
 
 试试能不能抢到椅子乐团演出票
 
@@ -22,11 +22,18 @@ python3 main.py
 
 - 一个是跳转到登录页面，请自行登录 `/login`
 - 一个是通用购买演出票 api，请自行传入对应参数, 支持定时功能 `/buy?event=xxx&ticketId=xxx&cron_time=xxx`
+- 支持自动选择观演人 
+
+`need_select` 如果不传，则不会选择观演人，如果传了，则会获取 `select_num` 的值进行观演人数量的选择, 具体逻辑参见代码
+ 
+```sh
+$ curl "http://127.0.0.1:9997/buy?event=169893&ticketId=xxx&need_select=True&ticketNum=1&select_num=1"
+```
 
 - 如果多次刷新 login 且登录页面没有进行登录，可能会存在线程阻塞问题，因为 max_workers 设置了 10 个, 暂时可以通过关闭窗口解决
 - 如果确认订单页面显示已售罄，需要不断刷新直到出现立即支付，这一点在捡漏的时候很有用
 - 只是给大家提供点思路，其他请自行阅读代码，祝大家好运
-- **注意：** 有问题请先看 [issue](https://github.com/ronething/xiudong-selenium/issues)，没有则新开 issue 提问即可
+- **注意：** 有问题请先看 [issue](https://github.com/ronething/xiudong-selenium/issues), 没有则新开 issue 提问即可
 
 ### 成功截图
 
@@ -58,10 +65,9 @@ python3 main.py
 > 您使用或者复制了本仓库且本人制作的任何代码或项目，则视为已接受此声明，请仔细阅读
 您在本声明未发出之时点使用或者复制了本仓库且本人制作的任何代码或项目且此时还在使用，则视为已接受此声明，请仔细阅读
 
-### TODO
+### change log
 
-- [x] driver 包装成 web 服务, 这样就可以不用重启了(便于对别人下单后15分钟的取消订单进行捡漏)
-- [ ] driver 多窗口操作
+- 2022/06/18 支持自动选择观演人
 
 ### Star History
 
