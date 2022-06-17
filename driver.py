@@ -50,6 +50,7 @@ def goto_login_url(driver: webdriver.Chrome):
     return
 
 
+# deprecated
 def goto_confirm_url(driver, confirm_ticket_url):
     driver.get(confirm_ticket_url)
 
@@ -66,6 +67,26 @@ def goto_confirm_url(driver, confirm_ticket_url):
         # 不断刷新
         time.sleep(0.001)
         return goto_confirm_url(driver, confirm_ticket_url)
+
+
+# 迭代写法防止堆栈溢出
+def goto_confirm_url_iteration(driver, confirm_ticket_url):
+    while True:
+        driver.get(confirm_ticket_url)
+
+        payBtn = WebDriverWait(driver, 10).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, '.payBtn')))
+
+        # DONE: 如果不是立即支付，需要进行刷新
+        # payBtn <selenium.webdriver.remote.webelement.WebElement
+        # (session="1244164329c3e2743132313082fd0416", element="36634b86-15bf-45a2-90d8-db69c3e60f6e")>
+        # print(f'点击按钮的文字', payBtn.text)  # 已售罄/ 立即支付 ¥160.00
+        if '立即支付' in payBtn.text:
+            print('获取到立即支付按钮')
+            return payBtn
+        else:
+            # 不断刷新
+            time.sleep(0.001)
 
 
 def confirm_ticket(payBtn):
@@ -101,7 +122,9 @@ def create_instance(chrome_driver, ticketId: str, event: str, ticketNum: str, st
     confirm_url = f"https://wap.showstart.com/pages/order/activity/confirm/confirm" \
                   f"?sequence={event}&ticketId={ticketId}&ticketNum={ticketNum}" \
                   f"&ioswx=1&terminal=app&from=singlemessage&isappinstalled=0"
-    pay_btn = goto_confirm_url(chrome_driver, confirm_url)
+    pay_btn = goto_confirm_url_iteration(chrome_driver, confirm_url)
+
+    # todo: 是否选择观演人
 
     if start_time is None:  # 直接抢
         print(f'开始抢票')
