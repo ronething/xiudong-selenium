@@ -1,0 +1,9 @@
+repos:
+-   repo: https://github.com/pre-commit/mirrors-autopep8
+    rev: v1.4.4
+    hooks:
+    -   id: autopep8
+        args:
+            - --in-place
+            - --ignore=E26,E265,E266,E402,E501
+
