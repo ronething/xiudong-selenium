@@ -51,30 +51,42 @@ def init_router(app: Flask):
     def buy():
         # 通用抢票 api， 需要传入 ticketId 以及 event
         # 可选项: cron_time 表示是否定时
+        # ticketNum 表示 购票数量
         # example: ?event=123&ticketId=456
         driver: webdriver.Chrome = g.driver
         pool: ThreadPoolExecutor = g.pool
         ticketId = request.args.get('ticketId')
         event = request.args.get('event')
-        if ticketId == "" or event == "":
-            return 'ERROR' 
+        if not ticketId or not event:
+            return 'ERROR'
+
         ticketNum = request.args.get('ticketNum')
-        if ticketNum == None or ticketNum == "":
+        if not ticketNum:
             ticketNum = 1
-        else:
-            ticketNum = ticketNum
-        print('ticketNum = ',ticketNum)
+        print('ticketNum = ', ticketNum)
+
+        # 是否需要选择观演人 以及几个人
+        need_select = request.args.get('need_select', False)
+        select_num = request.args.get('select_num', 1)
+
         cron_time = request.args.get('cron_time')
-        if cron_time == "":
+        if not cron_time:
             cron = False
         else:
             cron = True
         print(f'cron_time is {cron_time}, 是否是定时配置: {cron}')
 
-        if not cron:
-            pool.submit(create_instance, driver, ticketId, event, ticketNum)
-        else:
-            pool.submit(create_instance, driver, ticketId, event, ticketNum,cron_time)
+        # 提交任务
+        pool.submit(
+            create_instance,
+            driver,
+            ticketId,
+            event,
+            ticketNum,
+            cron_time,
+            need_select,
+            select_num,
+        )
 
         return 'buy OK'
 
