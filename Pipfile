@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-requests = "==2.26.0"
+requests = "==2.31.0"
 selenium = "==3.141.0"
 Flask = "==2.2.5"
 pycryptodome = "==3.12.0"
